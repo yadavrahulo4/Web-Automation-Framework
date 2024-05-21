@@ -6,8 +6,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * To read .properties file 
+ */
 public class FileReader {
-	Properties p;
+	
+	private static Properties p;
+	private static FileReader read;
+	public static FileReader getObj() {
+		return read;
+	}
+	static {
+		read=new FileReader();
+	}
 
 	public FileReader(String path) {
 		p = new Properties();
@@ -30,7 +41,11 @@ public class FileReader {
 		this("src\\test\\resources\\config.properties");
 	}
 
-	public String getProperty(String key) {
+	/**Method returns value for a given key from properties file
+	 * @param key
+	 * @return value 
+	 */
+	public static String get(String key) {
 		return (String) p.get(key);
 	}
 

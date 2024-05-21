@@ -1,5 +1,7 @@
 package sm.crm.test;
 
+import java.lang.reflect.Method;
+
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.internal.TestResult;
@@ -13,23 +15,24 @@ import sm.crm.utility.Utility;
 public class BaseTest {
 
 	private ExtReport rep;
-	String testMethName;
-	private Utility utl;
+	private String testMethName;
+	protected Utility utl;
 
 	@BeforeSuite
-	private void init() {
+	public void init() {
 		// TODO Auto-generated method stub
 		rep = new ExtReport();
 		rep.generateReport("test");
 		rep.createTest("TC_0");
 
-		utl = new Utility();
+		utl = new Utility(rep.extTest);
 
 	}
 
 	@BeforeMethod
-	public void bTest(TestResult result) {
-		testMethName = result.getName();
+	public void bTest(Method met) {
+		testMethName = met.getName();
+		System.out.println(testMethName);
 		rep.createTest(testMethName);
 
 		utl.getBrowser(BrowserType.Chrome);
@@ -45,7 +48,7 @@ public class BaseTest {
 	}
 
 	@AfterSuite
-	private void destory() {
+	public void destory() {
 		// TODO Auto-generated method stub
 		rep.flush();
 
